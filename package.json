@@ -1,0 +1,39 @@
+{
+  "name": "live-editor",
+  "version": "0.0.0",
+  "description": "An example of a live editor for live coding",
+  "main": "index.js",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/rumblesan/live-editor/issues"
+  },
+  "repository": "rumblesan/live-editor",
+  "scripts": {
+    "start:dev": "webpack-dev-server --mode development",
+    "build": "webpack-cli --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guy John <guy@rumblesan.com>",
+  "homepage": "https://github.com/rumblesan/live-editor#readme",
+  "devDependencies": {
+    "babel-core": "6.26.3",
+    "babel-eslint": "7.2.3",
+    "babel-loader": "7.1.4",
+    "babel-polyfill": "6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^0.28.11",
+    "eslint": "4.19.1",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "file-loader": "^1.1.11",
+    "prettier": "1.13.4",
+    "style-loader": "^0.21.0",
+    "webpack": "4.10.2",
+    "webpack-cli": "^3.0.0",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "dependencies": {
+    "@rumblesan/livecodelang": "^0.1.0",
+    "codemirror": "^5.38.0"
+  }
+}
