@@ -30,6 +30,15 @@ module.exports = {
           name: '[name].[ext]',
         },
       },
+      {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
+      },
     ],
+  },
+  resolve: {
+    modules: [path.resolve('./node_modules'), path.resolve('./src')],
+    extensions: ['.json', '.js'],
   },
 };

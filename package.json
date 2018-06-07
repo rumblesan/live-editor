@@ -9,7 +9,7 @@
   },
   "repository": "rumblesan/live-editor",
   "scripts": {
-    "start:dev": "webpack-dev-server --mode development",
+    "start:dev": "webpack-dev-server -d --mode development",
     "build": "webpack-cli --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,13 +27,14 @@
     "eslint-plugin-prettier": "2.6.0",
     "file-loader": "^1.1.11",
     "prettier": "1.13.4",
+    "source-map-loader": "^0.2.3",
     "style-loader": "^0.21.0",
     "webpack": "4.10.2",
     "webpack-cli": "^3.0.0",
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
-    "@rumblesan/livecodelang": "^0.1.0",
-    "codemirror": "^5.38.0"
+    "@rumblesan/livecodelang": "1.0.1",
+    "codemirror": "5.38.0"
   }
 }
