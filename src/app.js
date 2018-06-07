@@ -15,8 +15,18 @@ CodeMirror(document.getElementById('code'), {
     'Ctrl-Enter': function(instance) {
       const code = instance.getValue();
       const ast = parser.parse(code);
-      const value = interpret(ast, {});
-      console.log(value);
+      const output = interpret(ast, {});
+      let lineType = 'msg';
+      if (output.exitCode) {
+        lineType = 'err';
+      }
+      addTermLine(lineType, `${output.value}`);
     },
   },
 });
+
+const addTermLine = (type, line) => {
+  const el = document.getElementById('term-lines');
+  const current = el.innerHTML;
+  el.innerHTML = current + `<${type}># </${type}> ${line}<br />`;
+};
