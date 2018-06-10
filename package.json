@@ -36,7 +36,6 @@
   "dependencies": {
     "@rumblesan/livecodelang": "1.0.1",
     "codemirror": "5.38.0",
-    "github-api": "^3.0.0",
-    "node-fetch": "^2.1.2"
+    "github-api": "^3.0.0"
   }
 }
