@@ -24,7 +24,7 @@ let OAUTH_TOKEN = '';
 const oauthcode = getParameterByName('code');
 if (oauthcode) {
   const base = '/.netlify/functions/ghauth';
-  const url = `${base}?oauthcode=${oauthcode};
+  const url = base + '?oauthcode=' + oauthcode;
   fetch(url, {
     method: 'POST',
     referrer: 'no-referrer',
@@ -45,7 +45,7 @@ CodeMirror(document.getElementById('code'), {
       if (output.exitCode) {
         lineType = 'err';
       }
-      addTermLine(lineType, `${output.value}`);
+      addTermLine(lineType, output.value);
     },
     'Ctrl-S': function(instance) {
       const code = instance.getValue();
@@ -84,5 +84,5 @@ CodeMirror(document.getElementById('code'), {
 const addTermLine = (type, line) => {
   const el = document.getElementById('term-lines');
   const current = el.innerHTML;
-  el.innerHTML = current + `<${type}># </${type}> ${line}<br />`;
+  el.innerHTML = current + '<' + type + '># </' + type + '> ' + line + '<br />';
 };
