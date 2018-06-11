@@ -51,13 +51,14 @@ const editor = CodeMirror(document.getElementById('code'), {
 
 Github.auth(state);
 
-console.log(state);
 if (state.urlArgs.gistid) {
   Terminal.addLine(`Loading gist ${state.urlArgs.gistid}`, 'heading');
-  Github.loadGist(state, state.urlArgs.gistid, 'test.txt').then(file => {
-    const { content } = file;
-    state.editor.content = content;
-    localStorage.setItem('editor_content', content);
-    editor.setValue(content);
-  });
+  Github.loadGist(state, state.urlArgs.gistid, 'test.txt')
+    .then(file => {
+      const { content } = file;
+      state.editor.content = content;
+      localStorage.setItem('editor_content', content);
+      editor.setValue(content);
+    })
+    .catch(err => Terminal.addLine(err, 'err'));
 }

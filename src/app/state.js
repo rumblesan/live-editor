@@ -5,6 +5,7 @@ export function create(url) {
     github: {},
     editor: { content: '' },
   };
+  window.state = state;
   for (let p of searchParams) {
     let k = p[0];
     state.urlArgs[k] = searchParams.get(k);
