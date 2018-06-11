@@ -1,7 +1,7 @@
 const https = require('https');
 
-const CLIENT_ID = '53724f3cfff1b6af16d3';
-const CLIENT_SECRET = '9c1478b4435ae5a603d62ff991784a6c84aa2a97';
+const CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
+const CLIENT_SECRET = process.env.GITHUB_OAUTH_CLIENT_SECRET;
 
 exports.handler = function(event, context, callback) {
   const { oauthcode } = event.queryStringParameters;
