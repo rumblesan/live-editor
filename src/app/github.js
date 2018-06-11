@@ -13,9 +13,9 @@ export function gistSaveButton(state) {
     authLink.appendChild(document.createTextNode('Auth Github'));
     el.appendChild(authLink);
   } else {
-    const saveButton = document.createElement('button');
-    saveButton.appendChild(document.createTextNode('Save as Gist'));
-    el.appendChild(saveButton);
+    const okMsg = document.createElement('span');
+    okMsg.appendChild(document.createTextNode('Github OK'));
+    el.appendChild(okMsg);
 
     const gh = new GitHub({
       token: state.github.oauth_token,
