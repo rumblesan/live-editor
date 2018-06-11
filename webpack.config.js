@@ -41,4 +41,12 @@ module.exports = {
     modules: [path.resolve('./node_modules'), path.resolve('./src')],
     extensions: ['.json', '.js'],
   },
+  devServer: {
+    proxy: {
+      '/.netlify': {
+        target: 'http://localhost:9000',
+        pathRewrite: { '^/.netlify/functions': '' },
+      },
+    },
+  },
 };

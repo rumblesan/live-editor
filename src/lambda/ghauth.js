@@ -1,5 +1,7 @@
 const https = require('https');
 
+require('dotenv').config();
+
 const CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
 const CLIENT_SECRET = process.env.GITHUB_OAUTH_CLIENT_SECRET;
 
