@@ -2,8 +2,8 @@ import CodeMirror from 'codemirror/lib/codemirror';
 import * as Github from 'app/github';
 import * as Terminal from 'app/terminal';
 
-export const create = (state, parser, interpret) =>
-  CodeMirror(document.getElementById('code'), {
+export const create = (element, state, parser, interpret) =>
+  CodeMirror(element, {
     value: state.editor.content,
     lineNumbers: true,
     lineWrapping: true,

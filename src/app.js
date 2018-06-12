@@ -14,7 +14,12 @@ import * as Editor from 'app/editor';
 
 const state = AppState.create(window.location.search);
 
-const editor = Editor.create(state, parser, interpret);
+const editor = Editor.create(
+  document.getElementById('code'),
+  state,
+  parser,
+  interpret
+);
 
 Github.auth(state);
 
