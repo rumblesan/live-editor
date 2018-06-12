@@ -30,10 +30,27 @@ html, body {
     width: 100%;
 }
 .CodeMirror {
+  z-index: 5;
   height: 100%;
+  background: transparent;
 }
 #console {
     width: 100%;
     height: 200px;
     background: #000000;
 }
+#background {
+    z-index: -2;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.CodeMirror-line span {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #cccccc;
+}
+/* fix weird alternating background colors */
+.CodeMirror-line span span {
+    background-color: rgba(0, 0, 0, 0);
+}
+

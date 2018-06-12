@@ -11,6 +11,7 @@ import * as AppState from 'app/state';
 import * as Github from 'app/github';
 import * as Terminal from 'app/terminal';
 import * as Editor from 'app/editor';
+import * as Canvas from 'app/canvas';
 
 const state = AppState.create(window.location.search);
 
@@ -21,7 +22,7 @@ const editor = Editor.create(
   interpret
 );
 
-Github.auth(state);
+Canvas.create(document.getElementById('background'));
 
 if (state.urlArgs.gistid) {
   Terminal.addLine(`Loading gist ${state.urlArgs.gistid}`, 'heading');
