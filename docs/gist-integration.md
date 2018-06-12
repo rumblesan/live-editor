@@ -16,6 +16,8 @@ To do this, the client side makes a request to a lambda function, which sends th
 
 ![Oauth Flow Diagram](diagrams/oauth-flow.png)
 
+The [GitHub Docs](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/) are also worth reading for further explanation.
+
 ## Development Setup
 
 The project uses Webpack to handle bundling and building the JavaScript, and the [netlify lambda](https://github.com/netlify/netlify-lambda) tool to allow serving function requests in local development.
