@@ -1,0 +1,13 @@
+sequenceDiagram
+participant L as Live Editor
+participant F as Lambda Function
+participant G as GitHub
+note left of L: Unauthenticated <br />editor
+L -->> G: Link to authorisation page with client ID and scopes
+G -->> L: Redirect with OAuth code as query argument
+L ->> F: Request with OAuth code as query argument
+F ->> G: Request with OAuth code, client ID and client secret
+G ->> F: Response with OAuth access token
+F ->> L: Response passed straight on
+note left of L: OAuth access token<br />saved in local <br /> storage
+L --x G: OAuth token used in all API calls
