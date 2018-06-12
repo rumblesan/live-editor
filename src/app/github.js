@@ -1,6 +1,5 @@
 import GitHub from 'github-api';
 
-const CLIENT_ID = '5596eedea4e9a8ff853b';
 const scopes = 'gist';
 const authApiBase = 'https://github.com/login/oauth/authorize';
 
@@ -9,7 +8,9 @@ export function gistSaveButton(state) {
   el.innerHtml = '';
   if (!state.github.oauth_token) {
     const authLink = document.createElement('a');
-    authLink.href = `${authApiBase}?client_id=${CLIENT_ID}&scope=${scopes}`;
+    authLink.href = `${authApiBase}?client_id=${
+      state.github.client_id
+    }&scope=${scopes}`;
     authLink.appendChild(document.createTextNode('Auth Github'));
     el.appendChild(authLink);
   } else {

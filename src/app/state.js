@@ -15,6 +15,7 @@ export function create(url) {
     const tok = localStorage.GITHUB_OAUTH_TOKEN;
     state.github.oauth_token = tok;
   }
+  state.github.client_id = process.env.GITHUB_OAUTH_CLIENT_ID;
 
   if (localStorage.editor_content) {
     const content = localStorage.editor_content;

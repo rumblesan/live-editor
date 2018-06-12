@@ -1,5 +1,8 @@
 /* global process */
 
+require('dotenv').config();
+
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -37,6 +40,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [new webpack.EnvironmentPlugin(['GITHUB_OAUTH_CLIENT_ID'])],
   resolve: {
     modules: [path.resolve('./node_modules'), path.resolve('./src')],
     extensions: ['.json', '.js'],
