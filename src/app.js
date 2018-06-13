@@ -87,7 +87,6 @@ const editorFuncs = {
 const editor = Editor.create(
   document.getElementById('code'),
   state.editor.content,
-  evaluate,
   editorFuncs
 );
 
