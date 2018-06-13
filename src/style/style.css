@@ -47,7 +47,7 @@ body {
   left: 0px;
 }
 .CodeMirror-line span {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(5, 5, 5, 0.8);
   color: #cccccc;
 }
 /* fix weird alternating background colors */
