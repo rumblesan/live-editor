@@ -7,8 +7,13 @@ export const create = (element, content, funcs) =>
     lineWrapping: true,
     extraKeys: {
       'Ctrl-Enter': function(instance) {
-        const code = instance.getValue();
-        funcs.evaluate(code);
+        const selected = instance.getSelection();
+        if (selected !== '') {
+          funcs.evaluate(selected);
+        } else {
+          const code = instance.getValue();
+          funcs.evaluate(code);
+        }
       },
       'Ctrl-G': function(instance) {
         const code = instance.getValue();
