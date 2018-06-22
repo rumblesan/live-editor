@@ -1,6 +1,6 @@
 import 'codemirror/lib/codemirror.css';
 
-import { parser, interpret } from '@rumblesan/livecodelang';
+import { parser, stepInterpret } from '@rumblesan/livecodelang';
 
 import './index.html';
 import './images/favicon.ico';
@@ -13,12 +13,16 @@ import * as Terminal from 'app/terminal';
 import * as Editor from 'app/editor';
 import * as Canvas from 'app/canvas';
 import * as SimpleDraw from 'app/simpledraw';
+import * as Scheduler from 'app/scheduler';
 
 const state = AppState.create(window.location.search);
 
 const canvas = Canvas.create(document.getElementById('background'));
 
 const drawLib = SimpleDraw.create(canvas);
+
+const scheduler = Scheduler.create();
+Scheduler.start(scheduler);
 
 const scope = {
   white: 'white',
@@ -48,12 +52,38 @@ const scope = {
       SimpleDraw.drawRect(drawLib, x1, y1, x2, y2, colour);
     },
   },
+  nextFrame: {
+    type: 'builtin',
+    func: lambda => {
+      Scheduler.nextFrame(scheduler, lambda.func);
+    },
+  },
+  animate: {
+    type: 'builtin',
+    func: lambda => {
+      Scheduler.animate(scheduler, lambda.func);
+    },
+  },
+  clearAnimation: {
+    type: 'builtin',
+    func: () => {
+      Scheduler.clearAnimation(scheduler);
+    },
+  },
+  random: {
+    type: 'builtin',
+    func: Math.random,
+  },
+  print: {
+    type: 'builtin',
+    func: Terminal.addLine,
+  },
 };
 
 const evaluate = code => {
   Terminal.addLine('evaluating everything');
   const ast = parser.parse(code);
-  const output = interpret(ast, scope);
+  const output = stepInterpret(ast, scope);
   let lineType = 'msg';
   if (output.exitCode) {
     lineType = 'err';
