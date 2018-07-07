@@ -14,6 +14,7 @@ import * as Editor from 'app/editor';
 import * as Canvas from 'app/canvas';
 import * as SimpleDraw from 'app/simpledraw';
 import * as Scheduler from 'app/scheduler';
+import * as Scope from 'app/scope';
 
 const state = AppState.create(window.location.search);
 
@@ -24,61 +25,38 @@ const drawLib = SimpleDraw.create(canvas);
 const scheduler = Scheduler.create();
 Scheduler.start(scheduler);
 
-const scope = {
-  white: 'white',
-  black: 'black',
-  red: 'red',
-  orange: 'orange',
-  yellow: 'yellow',
-  green: 'green',
-  blue: 'blue',
-  indigo: 'indigo',
-  violet: 'violet',
-  clear: {
-    type: 'builtin',
-    func: () => {
-      SimpleDraw.clear(drawLib);
-    },
-  },
-  line: {
-    type: 'builtin',
-    func: (x1, y1, x2, y2, colour) => {
-      SimpleDraw.drawLine(drawLib, x1, y1, x2, y2, colour);
-    },
-  },
-  rect: {
-    type: 'builtin',
-    func: (x1, y1, x2, y2, colour) => {
-      SimpleDraw.drawRect(drawLib, x1, y1, x2, y2, colour);
-    },
-  },
-  nextFrame: {
-    type: 'builtin',
-    func: lambda => {
-      Scheduler.nextFrame(scheduler, lambda.func);
-    },
-  },
-  animate: {
-    type: 'builtin',
-    func: lambda => {
-      Scheduler.animate(scheduler, lambda.func);
-    },
-  },
-  clearAnimation: {
-    type: 'builtin',
-    func: () => {
-      Scheduler.clearAnimation(scheduler);
-    },
-  },
-  random: {
-    type: 'builtin',
-    func: Math.random,
-  },
-  print: {
-    type: 'builtin',
-    func: Terminal.addLine,
-  },
-};
+const scope = Scope.create();
+
+Scope.add(scope, 'white');
+Scope.add(scope, 'black');
+Scope.add(scope, 'red');
+Scope.add(scope, 'orange');
+Scope.add(scope, 'yellow');
+Scope.add(scope, 'green');
+Scope.add(scope, 'blue');
+Scope.add(scope, 'indigo');
+Scope.add(scope, 'vain');
+
+Scope.builtin(scope, 'clear', () => SimpleDraw.clear(drawLib));
+Scope.builtin(scope, 'line', (x1, y1, x2, y2, colour) => {
+  SimpleDraw.drawLine(drawLib, x1, y1, x2, y2, colour);
+});
+Scope.builtin(scope, 'rect', (x1, y1, x2, y2, colour) => {
+  SimpleDraw.drawRect(drawLib, x1, y1, x2, y2, colour);
+});
+Scope.builtin(scope, 'nextFrame', lambda => {
+  Scheduler.nextFrame(scheduler, lambda.func);
+});
+Scope.builtin(scope, 'animate', lambda => {
+  Scheduler.animate(scheduler, lambda.func);
+});
+Scope.builtin(scope, 'clearAnimation', () => {
+  Scheduler.clearAnimation(scheduler);
+});
+
+Scope.builtin(scope, 'random', Math.random);
+
+Scope.builtin(scope, 'print', Terminal.addLine);
 
 const evaluate = code => {
   Terminal.addLine('evaluating everything');
