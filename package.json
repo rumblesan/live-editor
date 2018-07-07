@@ -9,7 +9,7 @@
   },
   "repository": "rumblesan/live-editor",
   "scripts": {
-    "start:dev": "NODE_ENV=development concurrently \"webpack-dev-server -d --mode development\" \"netlify-lambda serve ./src/lambda\"",
+    "start": "NODE_ENV=development concurrently \"webpack-dev-server -d --mode development\" \"netlify-lambda serve ./src/lambda\"",
     "build": "webpack-cli --mode production && netlify-lambda build ./src/lambda",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
