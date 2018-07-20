@@ -1,6 +1,6 @@
 import 'codemirror/lib/codemirror.css';
 
-import { parser, stepInterpret } from '@rumblesan/livecodelang';
+import LiveLang from '@rumblesan/livecodelang';
 
 import './index.html';
 import './images/favicon.ico';
@@ -60,8 +60,8 @@ Scope.builtin(scope, 'print', Terminal.addLine);
 
 const evaluate = code => {
   Terminal.addLine('evaluating everything');
-  const ast = parser.parse(code);
-  const output = stepInterpret(ast, scope);
+  const ast = LiveLang.language.parser.parse(code);
+  const output = LiveLang.stepInterpret(ast, scope);
   let lineType = 'msg';
   if (output.exitCode) {
     lineType = 'err';
