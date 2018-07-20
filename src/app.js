@@ -18,6 +18,8 @@ import * as Scope from 'app/scope';
 
 const state = AppState.create();
 
+Github.auth(state);
+
 const canvas = Canvas.create(document.getElementById('background'));
 
 const drawLib = SimpleDraw.create(canvas);
