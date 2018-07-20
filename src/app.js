@@ -75,7 +75,8 @@ const saveGist = code => {
   Terminal.addLine('Creating Gist', 'heading');
   Github.saveGist(state, 'test.txt', code)
     .then(gist => {
-      Terminal.addLine(gist.id);
+      Terminal.addLine(`Gist created with id ${gist.id}`);
+      AppState.setHashArg(state, 'gistid', gist.id);
     })
     .catch(err => {
       Terminal.addLine(err, 'err');
