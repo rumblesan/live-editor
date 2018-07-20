@@ -22,6 +22,7 @@ export const create = (element, content, funcs) =>
       'Ctrl-S': function(instance) {
         const code = instance.getValue();
         funcs.saveLocal(code);
+        funcs.encodeURL(code);
       },
     },
   });

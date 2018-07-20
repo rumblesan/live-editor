@@ -16,7 +16,7 @@ import * as SimpleDraw from 'app/simpledraw';
 import * as Scheduler from 'app/scheduler';
 import * as Scope from 'app/scope';
 
-const state = AppState.create(window.location.search);
+const state = AppState.create();
 
 const canvas = Canvas.create(document.getElementById('background'));
 
@@ -86,10 +86,17 @@ const saveLocal = code => {
   localStorage.setItem('editor_content', code);
 };
 
+const encodeURL = code => {
+  Terminal.addLine('Encoding to URL', 'heading');
+  const base64 = btoa(encodeURIComponent(code));
+  AppState.setHashArg(state, 'encodedProg', base64);
+};
+
 const editorFuncs = {
   evaluate,
   saveGist,
   saveLocal,
+  encodeURL,
 };
 
 const editor = Editor.create(
@@ -98,9 +105,9 @@ const editor = Editor.create(
   editorFuncs
 );
 
-if (state.urlArgs.gistid) {
-  Terminal.addLine(`Loading gist ${state.urlArgs.gistid}`, 'heading');
-  Github.loadGist(state, state.urlArgs.gistid, 'test.txt')
+if (state.hashArgs.gistid) {
+  Terminal.addLine(`Loading gist ${state.hashArgs.gistid}`, 'heading');
+  Github.loadGist(state, state.hashArgs.gistid, 'test.txt')
     .then(file => {
       const { content } = file;
       state.editor.content = content;
@@ -108,4 +115,10 @@ if (state.urlArgs.gistid) {
       editor.setValue(content);
     })
     .catch(err => Terminal.addLine(err, 'err'));
+} else if (state.hashArgs.encodedProg) {
+  Terminal.addLine('Loading encoded program');
+  const program = decodeURIComponent(atob(state.hashArgs.encodedProg));
+  state.editor.content = program;
+  localStorage.setItem('editor_content', program);
+  editor.setValue(program);
 }
