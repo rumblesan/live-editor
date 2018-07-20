@@ -1,5 +1,7 @@
 import GitHub from 'github-api';
 
+import * as AppState from 'app/state';
+
 const scopes = 'gist';
 const authApiBase = 'https://github.com/login/oauth/authorize';
 
@@ -26,11 +28,11 @@ export function gistSaveButton(state) {
 }
 
 export function auth(state) {
-  if (!state.urlArgs.code) {
+  if (!AppState.getQueryArg(state, 'code')) {
     gistSaveButton(state);
     return;
   }
-  const oauthcode = state.urlArgs.code;
+  const oauthcode = AppState.getQueryArg(state, 'code');
   const base = '/.netlify/functions/ghauth';
   const url = `${base}?oauthcode=${oauthcode}`;
   fetch(url, {
@@ -46,6 +48,8 @@ export function auth(state) {
           token: state.github.oauth_token,
         });
         state.github.client = gh;
+        AppState.setQueryArg(state, 'code');
+        AppState.refreshURL(state);
       }
     });
 }

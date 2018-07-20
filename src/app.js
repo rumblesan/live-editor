@@ -77,6 +77,8 @@ const saveGist = code => {
     .then(gist => {
       Terminal.addLine(`Gist created with id ${gist.id}`);
       AppState.setHashArg(state, 'gistid', gist.id);
+      AppState.setHashArg(state, 'encodedProg');
+      AppState.refreshURL(state);
     })
     .catch(err => {
       Terminal.addLine(err, 'err');
@@ -93,6 +95,8 @@ const encodeURL = code => {
   Terminal.addLine('Encoding to URL', 'heading');
   const base64 = btoa(encodeURIComponent(code));
   AppState.setHashArg(state, 'encodedProg', base64);
+  AppState.setHashArg(state, 'gistid');
+  AppState.refreshURL(state);
 };
 
 const editorFuncs = {
@@ -108,9 +112,10 @@ const editor = Editor.create(
   editorFuncs
 );
 
-if (state.hashArgs.gistid) {
-  Terminal.addLine(`Loading gist ${state.hashArgs.gistid}`, 'heading');
-  Github.loadGist(state, state.hashArgs.gistid, 'test.txt')
+if (AppState.getHashArg(state, 'gistid')) {
+  const gistID = AppState.getHashArg(state, 'gistid');
+  Terminal.addLine(`Loading gist ${gistID}`, 'heading');
+  Github.loadGist(state, gistID, 'test.txt')
     .then(file => {
       const { content } = file;
       state.editor.content = content;
@@ -118,9 +123,10 @@ if (state.hashArgs.gistid) {
       editor.setValue(content);
     })
     .catch(err => Terminal.addLine(err, 'err'));
-} else if (state.hashArgs.encodedProg) {
+} else if (AppState.getHashArg(state, 'encodedProg')) {
+  const encodedProg = AppState.getHashArg(state, 'encodedProg');
   Terminal.addLine('Loading encoded program');
-  const program = decodeURIComponent(atob(state.hashArgs.encodedProg));
+  const program = decodeURIComponent(atob(encodedProg));
   state.editor.content = program;
   localStorage.setItem('editor_content', program);
   editor.setValue(program);

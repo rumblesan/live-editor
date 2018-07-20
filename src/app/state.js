@@ -1,23 +1,13 @@
 export function create() {
+  const queryArgs = new URLSearchParams(window.location.search);
+  const hashArgs = new URLSearchParams(window.location.hash.substring(1));
   const state = {
-    urlArgs: {},
-    hashArgs: {},
+    queryArgs,
+    hashArgs,
     github: {},
     editor: { content: '' },
   };
   window.state = state;
-
-  const queryArgs = new URLSearchParams(window.location.search);
-  for (let p of queryArgs) {
-    let k = p[0];
-    state.urlArgs[k] = queryArgs.get(k);
-  }
-
-  const hashArgs = new URLSearchParams(window.location.hash.substring(1));
-  for (let p of hashArgs) {
-    let k = p[0];
-    state.hashArgs[k] = hashArgs.get(k);
-  }
 
   if (localStorage.GITHUB_OAUTH_TOKEN) {
     const tok = localStorage.GITHUB_OAUTH_TOKEN;
@@ -34,13 +24,34 @@ export function create() {
 }
 
 export function setHashArg(state, key, value) {
-  const { protocol, host, pathname, search, hash } = window.location;
-  const queryString = new URLSearchParams(search).toString();
-  const hashArgs = new URLSearchParams(hash.substring(1));
-  hashArgs.set(key, value);
-  const hashString = hashArgs.toString();
+  if (!value) {
+    state.hashArgs.delete(key);
+  } else {
+    state.hashArgs.set(key, value);
+  }
+}
+
+export function getHashArg(state, key) {
+  return state.hashArgs.get(key);
+}
+
+export function setQueryArg(state, key, value) {
+  if (!value) {
+    state.queryArgs.delete(key);
+  } else {
+    state.queryArgs.set(key, value);
+  }
+}
+
+export function getQueryArg(state, key) {
+  return state.queryArgs.get(key);
+}
+
+export function refreshURL(state) {
+  const { protocol, host, pathname } = window.location;
+  const { queryArgs, hashArgs } = state;
 
   const p = `${protocol}//`;
-  const newurl = `${p}${host}${pathname}?${queryString}#${hashString}`;
+  const newurl = `${p}${host}${pathname}?${queryArgs.toString()}#${hashArgs.toString()}`;
   window.history.pushState({ path: newurl }, '', newurl);
 }
