@@ -1,3 +1,5 @@
+import { constants } from 'app/config';
+
 export function create() {
   const queryArgs = new URLSearchParams(window.location.search);
   const hashArgs = new URLSearchParams(window.location.hash.substring(1));
@@ -13,7 +15,7 @@ export function create() {
     const tok = localStorage.GITHUB_OAUTH_TOKEN;
     state.github.oauth_token = tok;
   }
-  state.github.client_id = process.env.GITHUB_OAUTH_CLIENT_ID;
+  state.github.client_id = constants.GitHubOAuthClientID;
 
   if (localStorage.editor_content) {
     const content = localStorage.editor_content;

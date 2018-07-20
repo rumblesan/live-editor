@@ -16,6 +16,8 @@ import * as SimpleDraw from 'app/simpledraw';
 import * as Scheduler from 'app/scheduler';
 import * as Scope from 'app/scope';
 
+import { config, constants } from 'app/config';
+
 const state = AppState.create();
 
 Github.auth(state);
@@ -73,11 +75,11 @@ const evaluate = code => {
 
 const saveGist = code => {
   Terminal.addLine('Creating Gist', 'heading');
-  Github.saveGist(state, 'test.txt', code)
+  Github.saveGist(state, config.gistCodeFilename, code)
     .then(gist => {
       Terminal.addLine(`Gist created with id ${gist.id}`);
-      AppState.setHashArg(state, 'gistid', gist.id);
-      AppState.setHashArg(state, 'encodedProg');
+      AppState.setHashArg(state, constants.GistID, gist.id);
+      AppState.setHashArg(state, constants.EncodedProgram);
       AppState.refreshURL(state);
     })
     .catch(err => {
@@ -88,14 +90,14 @@ const saveGist = code => {
 const saveLocal = code => {
   Terminal.addLine('Saving', 'heading');
   state.editor.content = code;
-  localStorage.setItem('editor_content', code);
+  localStorage.setItem(constants.EditorContent, code);
 };
 
 const encodeURL = code => {
   Terminal.addLine('Encoding to URL', 'heading');
   const base64 = btoa(encodeURIComponent(code));
-  AppState.setHashArg(state, 'encodedProg', base64);
-  AppState.setHashArg(state, 'gistid');
+  AppState.setHashArg(state, constants.EncodedProgram, base64);
+  AppState.setHashArg(state, constants.GistID);
   AppState.refreshURL(state);
 };
 
@@ -112,22 +114,22 @@ const editor = Editor.create(
   editorFuncs
 );
 
-if (AppState.getHashArg(state, 'gistid')) {
-  const gistID = AppState.getHashArg(state, 'gistid');
+if (AppState.getHashArg(state, constants.GistID)) {
+  const gistID = AppState.getHashArg(state, constants.GistID);
   Terminal.addLine(`Loading gist ${gistID}`, 'heading');
-  Github.loadGist(state, gistID, 'test.txt')
+  Github.loadGist(state, gistID, config.gistCodeFilename)
     .then(file => {
       const { content } = file;
       state.editor.content = content;
-      localStorage.setItem('editor_content', content);
+      localStorage.setItem(constants.EditorContent, content);
       editor.setValue(content);
     })
     .catch(err => Terminal.addLine(err, 'err'));
-} else if (AppState.getHashArg(state, 'encodedProg')) {
-  const encodedProg = AppState.getHashArg(state, 'encodedProg');
+} else if (AppState.getHashArg(state, constants.EncodedProgram)) {
+  const encodedProg = AppState.getHashArg(state, constants.EncodedProgram);
   Terminal.addLine('Loading encoded program');
   const program = decodeURIComponent(atob(encodedProg));
   state.editor.content = program;
-  localStorage.setItem('editor_content', program);
+  localStorage.setItem(constants.EditorContent, program);
   editor.setValue(program);
 }
